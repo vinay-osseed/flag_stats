@@ -2,8 +2,7 @@ name: Flag Statistics
 type: module
 description: 'Provides all type flag statistics.'
 package: Flags
-# version: 8.x-1.0
-core: 8.x
+core_version_requirement: ^8.8 || ^9
 dependencies:
   - flag:flag
   - drupal:views

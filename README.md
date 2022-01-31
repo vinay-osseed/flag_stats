@@ -2,13 +2,15 @@ Flag Statistics for Drupal 8
 ============================
 
 Contents:
- * Introduction
- * Maintainers
- * Installation
- * Configuration
- * Support
+
+* Introduction
+* Maintainers
+* Installation
+* Configuration
+* Support
 
 Introduction
+
 ------------
 The flag statistics help to get proper count for boolean toggle field which is
 attach it to a node, comment, user, or any entity type. Once flags are added
@@ -20,8 +22,10 @@ statistics of each entity per user.
 
 Maintainers
 -----------
+
 Current Flag Maintainers:
- * Dhanesh Dhuri (ddhuri)
+
+* Dhanesh Dhuri (ddhuri)
 
 Installation
 ------------
@@ -32,7 +36,6 @@ configuration prior to use.
 1. Download the module to your DRUPAL_ROOT/modules directory, or where ever you
 install contrib modules on your site.
 2. Go to Admin > Extend and enable the module.
-
 
 Configuration
 -------------
@@ -53,18 +56,18 @@ flagged stats after unflagging the entity.
 Once you are finished creating flags, you may choose to use Views.
 
 Configuration for view
+
 1. Create a view for "Flag statistics"
 2. Add Flag Statistics: Fid field
 3. Add relationship content nid for getting specific content based total count.
 4. Add contextual filter `id` for getting flag count for each entity.
 5. Enable aggregation and make field as countable.
 
-
 Support
 -------
 
 If you experience a problem with flag or have a problem, file a request or
-issue on the flag queue at http://drupal.org/project/issues/flag.
+issue on the flag queue at <http://drupal.org/project/issues/flag>.
 
 DO NOT POST IN THE FORUMS.
 

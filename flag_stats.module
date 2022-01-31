@@ -5,12 +5,28 @@
  * The Flag Statistics module.
  */
 
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function flag_stats_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the flag_stats module.
+    case 'help.page.flag_stats':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Flag statistics provide to get a count of the flagged / unflagged events for an entity. After enabling & configuring the module, it will start capturing the flag / unflag events & provides views integration to display it.') . '</p>';
+      return $output;
+  }
+}
+
 /**
  * Implements hook_entity_type_alter().
  */
 function flag_stats_entity_type_alter(array &$entity_types) {
   if (isset($entity_types['flag'])) {
-    /** @var \Drupal\Core\Entity\ContentEntityTypeInterface $entity_type */
+    /** @var Drupal\Core\Entity\ContentEntityTypeInterface $entity_type */
     $entity_type = $entity_types['flag'];
     $handlers = $entity_type->getHandlerClasses();
 

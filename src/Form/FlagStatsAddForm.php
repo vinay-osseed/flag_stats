@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Provides the flag statistics form.
  *
- * @see \Drupal\flag\Form\FlagAddForm
+ * @see Drupal\flag\Form\FlagAddForm
  */
 class FlagStatsAddForm extends FlagAddForm {
 
@@ -22,27 +22,27 @@ class FlagStatsAddForm extends FlagAddForm {
     $form['flag_stats'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('Flag Statistics'),
+      '#title' => $this->t('Flag Statistics'),
       '#tree' => FALSE,
       '#weight' => 20,
     ];
 
     $form['flag_stats']['flag_stat'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable Flag Statistics'),
-      '#description' => t('Add statistics entry after flaging entity.'),
+      '#title' => $this->t('Enable Flag Statistics'),
+      '#description' => $this->t('Add statistics entry after flaging entity.'),
     ];
 
     $form['flag_stats']['unflag_stats'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable UnFlag Statistics'),
-      '#description' => t('Add statistics entry after unflaging entity.'),
+      '#title' => $this->t('Enable UnFlag Statistics'),
+      '#description' => $this->t('Add statistics entry after unflaging entity.'),
     ];
 
     $form['flag_stats']['delete_flag_stat'] = [
       '#type' => 'checkbox',
-      '#title' => t('Remove Flag Statistics entry for Unflagged entity'),
-      '#description' => t('Remove flagged statistics entry after unflaging entity.'),
+      '#title' => $this->t('Remove Flag Statistics entry for Unflagged entity'),
+      '#description' => $this->t('Remove flagged statistics entry after unflaging entity.'),
     ];
 
     return $form;
@@ -60,4 +60,5 @@ class FlagStatsAddForm extends FlagAddForm {
 
     return parent::save($form, $form_state);
   }
+
 }
