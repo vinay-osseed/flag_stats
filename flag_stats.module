@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Provides Statistics for flag module for each action.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function flag_stats_form_alter(&$form, $form_state, $form_id) {
+  if ('flag_form' == $form_id) {
+    $form['flag_stats'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Flag Statistics'),
+      '#tree' => FALSE,
+      '#weight' => 21,
+      '#after_build' => array('flag_link_type_options_states'),
+    );
+    $form['flag_stats']['flag_stats'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable Flag Statistics'),
+      '#description' => t('Add statistics entry after flaging entity.'),
+      '#default_value' => isset($form['#flag']->flag_stats) ? $form['#flag']->flag_stats : 0,
+    );
+    $form['flag_stats']['unflag_stats'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable UnFlag Statistics'),
+      '#description' => t('Add statistics entry after unflaging entity.'),
+      '#default_value' => isset($form['#flag']->unflag_stats) ? $form['#flag']->unflag_stats : 0,
+    );
+    $form['flag_stats']['delete_flag_stat'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Remove Flag Statistics entry for Unflagged entity'),
+      '#description' => t('Remove flagged statistics entry after unflaging entity.'),
+      '#default_value' => isset($form['#flag']->delete_flag_stat) ? $form['#flag']->delete_flag_stat : 0,
+    );
+  }
+}
+
+/**
+ * Implements hook_flag_options_alter().
+ */
+function flag_stats_flag_options_alter(&$options, $flag) {
+  $options['flag_stats'] = '';
+  $options['unflag_stats'] = '';
+  $options['delete_flag_stat'] = '';
+}
+
+/**
+ * Implements hook_flag_flag().
+ */
+function flag_stats_flag_flag($flag, $entity_id, $account, $flagging) {
+  // Add flag statestics entry on entity flagged.
+  if ($flag->flag_stats == 1) {
+    db_insert('flag_stats')
+      ->fields(array(
+        'status' => 1,
+        'flag_type' => $flagging->flag_name,
+        'entity_id' => $entity_id,
+        'entity_type' => $flagging->entity_type,
+        'uid' => $flagging->uid,
+        'timestamp' => REQUEST_TIME,
+      ))->execute();
+  }
+}
+
+/**
+ * Implemets hook_flag_unflag().
+ */
+function flag_stats_flag_unflag($flag, $entity_id, $account, $flagging) {
+  // Remove flag statestics entry on entity unflagged if option is enabled
+  // in configuation.
+  if ($flag->delete_flag_stat == 1) {
+    $all_fids = db_select('flag_stats', 'f')
+      ->fields('f', array('fid'))
+      ->condition('f.entity_id', $entity_id, '=')
+      ->condition('f.uid', $flagging->uid, '=')
+      ->execute()
+      ->fetchAll();
+
+    foreach ($all_fids as $fid) {
+      db_delete('flag_stats')
+        ->condition('fid', $fid->fid, '=')
+        ->execute();
+    }
+  } elseif ($flag->unflag_stats == 1) {
+    // Add flag statestics entry on entity unflagged.
+    db_insert('flag_stats')
+      ->fields(array(
+        'status' => 0,
+        'flag_type' => $flagging->flag_name,
+        'entity_id' => $entity_id,
+        'entity_type' => $flagging->entity_type,
+        'uid' => $flagging->uid,
+        'timestamp' => REQUEST_TIME,
+      ))->execute();
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function flag_stats_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module','flag_stats'). '/views',
+  );
+}
