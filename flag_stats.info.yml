@@ -1,0 +1,14 @@
+name: Flag Statistics
+type: module
+description: 'Provides all type flag statistics.'
+package: Flags
+# version: 8.x-1.0
+core: 8.x
+dependencies:
+  - flag:flag
+  - drupal:views
+
+# Information added by Drupal.org packaging script on 2020-02-28
+version: '8.x-1.0'
+project: 'flag_stats'
+datestamp: 1582888688

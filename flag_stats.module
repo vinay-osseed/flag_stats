@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * The Flag Statistics module.
+ */
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function flag_stats_entity_type_alter(array &$entity_types) {
+  if (isset($entity_types['flag'])) {
+    /** @var \Drupal\Core\Entity\ContentEntityTypeInterface $entity_type */
+    $entity_type = $entity_types['flag'];
+    $handlers = $entity_type->getHandlerClasses();
+
+    $handlers['form']['add'] = 'Drupal\flag_stats\Form\FlagStatsAddForm';
+    $handlers['form']['edit'] = 'Drupal\flag_stats\Form\FlagStatsEditForm';
+
+    $entity_type->setHandlerClass('form', $handlers['form']);
+  }
+}

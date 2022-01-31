@@ -1,0 +1,67 @@
+<?php
+
+namespace Drupal\flag_stats\Form;
+
+use Drupal\flag\Form\FlagEditForm;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Provides the flag statistics form.
+ *
+ * @see \Drupal\flag\Form\FlagEditForm
+ */
+class FlagStatsEditForm extends FlagEditForm {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildForm(array $form, FormStateInterface $form_state, $entity_type = NULL) {
+    $flag = $this->entity;
+    $form = parent::buildForm($form, $form_state);
+
+    $form['flag_stats'] = array(
+      '#type' => 'details',
+      '#open' => TRUE,
+      '#title' => t('Flag Statistics'),
+      '#tree' => FALSE,
+      '#weight' => 20,
+    );
+
+    $form['flag_stats']['flag_stat'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable Flag Statistics'),
+      '#description' => t('Add statistics entry after flaging entity.'),
+      '#default_value' => $flag->getThirdPartySetting('flag_stats', 'flag_stat', NULL),
+    );
+
+    $form['flag_stats']['unflag_stats'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable UnFlag Statistics'),
+      '#description' => t('Add statistics entry after unflaging entity.'),
+      '#default_value' => $flag->getThirdPartySetting('flag_stats', 'unflag_stats', NULL),
+    );
+
+    $form['flag_stats']['delete_flag_stat'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Remove Flag Statistics entry for Unflagged entity'),
+      '#description' => t('Remove flagged statistics entry after unflaging entity.'),
+      '#default_value' => $flag->getThirdPartySetting('flag_stats', 'delete_flag_stat', NULL),
+    );
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function save(array $form, FormStateInterface $form_state) {
+    $flag = $this->entity;
+    // Save extra configurations.
+    $flag->setThirdPartySetting('flag_stats', 'flag_stat', $form_state->getValue('flag_stat'));
+    $flag->setThirdPartySetting('flag_stats', 'unflag_stats', $form_state->getValue('unflag_stats'));
+    $flag->setThirdPartySetting('flag_stats', 'delete_flag_stat', $form_state->getValue('delete_flag_stat'));
+
+    return parent::save($form, $form_state);
+  }
+
+}

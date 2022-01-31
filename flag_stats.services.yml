@@ -1,0 +1,5 @@
+services:
+  flag_stats.flag_stat:
+    class: Drupal\flag_stats\Stats\FlagStatsCount
+    tags:
+      - { name: event_subscriber }
