@@ -9,63 +9,63 @@
  * Implements hook_schema().
  */
 function flag_stats_schema() {
-  $schema = array();
+  $schema = [];
 
-  $schema['flag_stats'] = array(
+  $schema['flag_stats'] = [
     'description' => 'All flags statistics in the system.',
-    'fields' => array(
-      'fid' => array(
+    'fields' => [
+      'fid' => [
         'description' => 'The unique ID for particular flag statistics.',
         'type' => 'serial',
         'size' => 'small',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'status' => array(
+      ],
+      'status' => [
         'description' => 'The flag status, for example "flag" or "unflagged".',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'flag_type' => array(
+      ],
+      'flag_type' => [
         'description' => 'The machine-name for this flag.',
         'type' => 'varchar',
         'length' => '128',
         'not null' => TRUE,
-      ),
-      'entity_id' => array(
+      ],
+      'entity_id' => [
         'description' => 'The entity id, for example "node", "comment", or "user".',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'entity_type' => array(
+      ],
+      'entity_type' => [
         'description' => 'The entity type, for example "node", "comment", or "user".',
         'type' => 'varchar',
         'length' => '128',
         'not null' => TRUE,
         'default' => '',
-      ),
-      'uid' => array(
+      ],
+      'uid' => [
         'description' => 'The user ID by whom this object was flagged.',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'timestamp' => array(
+      ],
+      'timestamp' => [
         'description' => 'The UNIX time stamp representing when the flag was set.',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
         'disp-size' => 11,
-      ),
-    ),
-    'primary key' => array('fid'),
-    'unique keys' => array(
-      'name' => array('fid'),
-    ),
-  );
+      ],
+    ],
+    'primary key' => ['fid'],
+    'unique keys' => [
+      'name' => ['fid'],
+    ],
+  ];
 
   return $schema;
 }

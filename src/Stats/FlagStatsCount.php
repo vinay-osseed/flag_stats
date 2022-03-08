@@ -74,7 +74,7 @@ class FlagStatsCount implements EventSubscriberInterface {
         'entity_id' => $entity_nid,
         'entity_type' => $enity_type,
         'uid' => $user_id[0],
-      // Changes from REQUEST_TIME.
+        // Changes from REQUEST_TIME.
         'timestamp' => $this->time->getCurrentTime(),
       ])->execute();
     }
@@ -118,7 +118,7 @@ class FlagStatsCount implements EventSubscriberInterface {
           'entity_id' => $entity_nid,
           'entity_type' => $enity_type,
           'uid' => $user_id[0],
-      // Changes from REQUEST_TIME.
+          // Changes from REQUEST_TIME.
           'timestamp' => $this->time->getCurrentTime(),
         ])->execute();
     }
