@@ -1,4 +1,4 @@
-# Flag Statistics for Drupal 8
+# Flag Statistics for Drupal
 
 Contents:
 
@@ -8,7 +8,7 @@ Contents:
 * Configuration
 * Support
 
-### Introduction
+## Introduction
 
 ------------
 The flag statistics help to get proper count for boolean toggle field which is
@@ -19,7 +19,7 @@ based on flagged or unflagged event.
 Also it supports to views which helps to create a view page. And displays the
 statistics of each entity per user.
 
-### Maintainers
+## Maintainers
 
 ------------
 
@@ -27,7 +27,7 @@ Current Flag Maintainers:
 
 * Dhanesh Dhuri (ddhuri)
 
-### Installation
+## Installation
 
 ------------
 
@@ -38,11 +38,11 @@ configuration prior to use.
 install contrib modules on your site.
 2. Go to Admin > Extend and enable the module.
 
-### Configuration
+## Configuration
 
 ------------
 
-#### Configuration of Flag statistics module involves creating flag
+### Configuration of Flag statistics module involves creating flag
 
 1. Go to `Admin > Structure > Flags`, and click on `Add flag`.
 2. Select the target entity type, and click `Continue`.
@@ -54,17 +54,17 @@ install contrib modules on your site.
 
 Once you are finished creating flags, you may choose to use views. Or you can use our default view(Flag Statistics) from `Structure > Flags > Flag Statistics`.
 
-#### Configuration for view
+### Configuration for view
 
-1. Create a view for "Flag statistics".
+1. Create a view for `Flag statistics`.
 2. Add relationship to `content` for `nid`.
-3. Add contextual filter of content `id` for getting flag count for each entity.
+3. Add contextual filter of `Content:ID` for getting flag count for each entity.
 4. Remove `fid` from `FIELDS` and add `Content:Title` & `Content:ID`.
-5. Enable aggregation settings from advanced menu.
+5. Enable aggregation settings and set `Caching` to `None` from advanced menu.
 6. Set `COUNT` aggregation to `Content:ID` in `FIELDS`.
 7. Save the view.
 
-### Support
+## Support
 
 ------------
 
