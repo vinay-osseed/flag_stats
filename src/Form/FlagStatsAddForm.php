@@ -16,7 +16,6 @@ class FlagStatsAddForm extends FlagAddForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $entity_type = NULL) {
-    $flag = $this->entity;
     $form = parent::buildForm($form, $form_state);
 
     $form['flag_stats'] = [

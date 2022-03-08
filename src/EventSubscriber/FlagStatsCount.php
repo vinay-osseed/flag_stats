@@ -1,13 +1,14 @@
 <?php
 
-namespace Drupal\flag_stats\Stats;
+namespace Drupal\flag_stats\EventSubscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\flag\Event\FlagEvents;
 use Drupal\flag\Event\FlaggingEvent;
-use Drupal\flag\Event\UnflaggingEvent;
 use Drupal\Core\Database\Connection;
+use Drupal\flag\Event\UnflaggingEvent;
 use Drupal\Component\Datetime\TimeInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * FlagStatsCount for manage flag/unflag events.
@@ -45,9 +46,8 @@ class FlagStatsCount implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container, $plugin_id, $plugin_definition) {
     return new static(
-      $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('database'),
@@ -62,7 +62,9 @@ class FlagStatsCount implements EventSubscriberInterface {
     $flagging = $event->getFlagging();
     $entity_nid = $flagging->getFlaggable()->id();
     $enity_type = $flagging->getFlaggable()->getEntityType()->id();
-    $user_id = $flagging->getFlaggable()->getCurrentUserId();
+    $id = $flagging->getFlaggable()->getDefaultEntityOwner();
+    // In case anonymous user have permission to set flag.
+    $user_id = (!$id) ? '0' : $id;
     $flag = $flagging->getFlag();
     // Add flag statestics entry on entity flagged.
     if ($flag->getThirdPartySetting('flag_stats', 'flag_stat', NULL) == 1) {
@@ -88,7 +90,9 @@ class FlagStatsCount implements EventSubscriberInterface {
     $flagging = reset($flagging);
     $entity_nid = $flagging->getFlaggable()->id();
     $enity_type = $flagging->getFlaggable()->getEntityType()->id();
-    $user_id = $flagging->getFlaggable()->getCurrentUserId();
+    $id = $flagging->getFlaggable()->getDefaultEntityOwner();
+    // In case anonymous user have permission to set flag.
+    $user_id = (!$id) ? '0' : $id;
     $flag = $flagging->getFlag();
 
     // Remove flag statestics entry on entity unflagged if option is enabled
@@ -128,10 +132,10 @@ class FlagStatsCount implements EventSubscriberInterface {
    * Connect flag/unflag function to FlagEvents.
    */
   public static function getSubscribedEvents() {
-    $events = [];
-    $events[FlagEvents::ENTITY_FLAGGED][] = ['onFlag'];
-    $events[FlagEvents::ENTITY_UNFLAGGED][] = ['onUnflag'];
-    return $events;
+    return [
+      FlagEvents::ENTITY_FLAGGED => 'onFlag',
+      FlagEvents::ENTITY_UNFLAGGED => 'onUnflag',
+    ];
   }
 
 }

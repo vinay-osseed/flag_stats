@@ -1,6 +1,6 @@
 services:
   flag_stats.flag_stat:
-    class: Drupal\flag_stats\Stats\FlagStatsCount
+    class: Drupal\flag_stats\EventSubscriber\FlagStatsCount
     tags:
       - { name: event_subscriber }
     arguments: ['@database', '@datetime.time']
